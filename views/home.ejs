@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Food Ordering System</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #030303;
+            text-align: left;
+            padding: 8px;
+            color: rgb(243, 243, 243);
+        }
+
+        tr {
+            background-color: #6e6a6a;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>All Food Items</h1>
+    <table>
+        <tr>
+            <th>Food Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Delete</th>
+        </tr>
+        <% data.forEach(element => { %>
+            <tr>
+                <td><%= element.foodName %></td>
+                <td><%= element.foodDescription %></td>
+                <td><%= element.foodPrice %></td>
+                <td><%= element.foodStatus %></td>
+                <td>
+                    <form action="/delete" method="post">
+                        <input type="text" style="display: none;" name="foodName" value="<%= element.foodName %>">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        <% }) %>
+    </table>
+
+    <h1>Add Food Item</h1>
+
+    <form action="/add" method="post">
+        <input type="text" placeholder="Food Name" name="foodName" required>
+        <input type="text" placeholder="Description" name="foodDescription">
+        <input type="number" placeholder="Price" name="foodPrice" required>
+        <input type="text" placeholder="Status" name="foodStatus" value="Available">
+        <button type="submit">Add</button>
+    </form>
+</body>
+
+</html>
