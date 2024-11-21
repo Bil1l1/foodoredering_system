@@ -28,7 +28,6 @@ app.post("/add", async (req, res) => {
         }
         const foodItems = await knex("food_items").select("*");
         res.render("home", { data: foodItems });
-        console.log(req.body)
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: "Failed to create food item" });
@@ -39,14 +38,46 @@ app.post("/delete", async (req, res) => {
     var requestedFoodName = req.body.foodName;
 
     try {
-        const deleted = await knex("food_items").where("foodName", requestedFoodName).del();
-        if (deleted === 0) {
+        const updateStatus = await knex("food_items").where("foodName", requestedFoodName).del();
+        if (updateStatus === 0) {
             return res.status(404).json({ error: "Food item not found" });
         }
         const foodItems = await knex("food_items").select("*");
         res.render("home", { data: foodItems });
     } catch (error) {
         res.status(500).json({ error: "Failed to delete food item" });
+    }
+});
+
+app.post("/Order", async (req, res) => {
+    var requestedid = req.body.id;
+    console.log(req.body.id)
+
+    try {
+        const updateStatus = await knex("food_items").where("id", requestedid).update({foodStatus:'Ordered'});
+        if (updateStatus === 0) {
+            return res.status(404).json({ error: "Food item not found" });
+        }
+        const foodItems = await knex("food_items").select("*");
+        res.render("home", { data: foodItems });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to order food item" });
+    }
+});
+
+app.post("/issued", async (req, res) => {
+    var requestedid = req.body.id;
+    console.log(req.body.id)
+
+    try {
+        const updateStatus = await knex("food_items").where("id", requestedid).update({foodStatus:'issued'});
+        if (updateStatus === 0) {
+            return res.status(404).json({ error: "Food item not found" });
+        }
+        const foodItems = await knex("food_items").select("*");
+        res.render("home", { data: foodItems });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to issue food item" });
     }
 });
 

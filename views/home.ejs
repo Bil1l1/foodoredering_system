@@ -12,14 +12,13 @@
 
         td,
         th {
-            border: 1px solid #030303;
+            border: 1px solid #dddddd;
             text-align: left;
             padding: 8px;
-            color: rgb(243, 243, 243);
         }
 
-        tr {
-            background-color: #6e6a6a;
+        tr:nth-child(even) {
+            background-color: #dddddd;
         }
     </style>
 </head>
@@ -32,18 +31,29 @@
             <th>Description</th>
             <th>Price</th>
             <th>Status</th>
-            <th>Delete</th>
+            <th>Cancel Order</th>
         </tr>
         <% data.forEach(element => { %>
             <tr>
+                <td hidden><%= element.id %></td>
                 <td><%= element.foodName %></td>
                 <td><%= element.foodDescription %></td>
                 <td><%= element.foodPrice %></td>
-                <td><%= element.foodStatus %></td>
+                <td>
+                    <form action="/Order" method="post">
+                        <input type="text" style="display: none;" name="id" value="<%= element.id %>">
+                        <button type="submit">Order</button>
+                    </form>
+                    <form action="/issued" method="post">
+                        <input type="text" style="display: none;" name="id" value="<%= element.id %>">
+                        <button type="submit">issued</button>
+                    </form>
+                    <%= element.foodStatus %>
+                </td>
                 <td>
                     <form action="/delete" method="post">
                         <input type="text" style="display: none;" name="foodName" value="<%= element.foodName %>">
-                        <button type="submit">Delete</button>
+                        <button type="submit">Cancel</button>
                     </form>
                 </td>
             </tr>
@@ -56,7 +66,7 @@
         <input type="text" placeholder="Food Name" name="foodName" required>
         <input type="text" placeholder="Description" name="foodDescription">
         <input type="number" placeholder="Price" name="foodPrice" required>
-        <input type="text" placeholder="Status" name="foodStatus" value="Available">
+        <input type="text" placeholder="Status" name="foodStatus" value="Ordered">
         <button type="submit">Add</button>
     </form>
 </body>
